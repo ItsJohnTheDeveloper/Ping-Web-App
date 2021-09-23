@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getPings } from "../services/data_db";
 import Posts from "../components/Feed/Posts";
 import Post from "../components/Feed/Post";
@@ -12,6 +12,13 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const postsRef = useRef<null | HTMLElement>(null);
+
+  const executeScroll = () => {
+    if (postsRef && postsRef.current) {
+      postsRef.current.scrollTo(0, 0);
+    }
+  };
 
   useEffect(() => {
     // Initially populate pings
@@ -22,7 +29,9 @@ export default function Home() {
     try {
       const data = await getPings();
       setPosts(data);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
     } catch (err: any) {
       setError(err);
       setLoading(false);
@@ -37,21 +46,21 @@ export default function Home() {
     console.log("You made a PING!");
     console.log(newPing);
     await getAllPings();
-    window.scrollTo(0, 0);
+    executeScroll();
   };
 
   return (
     <>
+      {error ?? null}
       {loading ? (
         <FeedLoading />
       ) : (
-        <Posts>
+        <Posts postsRef={postsRef} pullToRefresh={getAllPings}>
           {posts.map((post: Ping) => (
-            <Post text={post.text} />
+            <Post text={post.text} date={post.date} />
           ))}
         </Posts>
       )}
-      {error.toString()}
       <SwipeableForm onSubmit={handleCreatePing} />
     </>
   );

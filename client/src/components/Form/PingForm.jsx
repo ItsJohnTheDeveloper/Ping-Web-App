@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     wordBreak: "break-word",
     resize: "none",
     width: "100%",
-    padding: "0px 16px",
+    padding: "10px 16px",
     border: "none !important",
     "-webkit-appearance": "button",
     "-moz-appearance": "button",

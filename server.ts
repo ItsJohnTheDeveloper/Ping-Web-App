@@ -1,19 +1,18 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, Application } from "express";
 import { PingDocument } from "./client/src/models/ping";
 import { MongoClient, InsertOneResult } from "mongodb";
 const connectionString =
   "mongodb+srv://admin:admin@cluster0.pixym.mongodb.net/ping-app?retryWrites=true&w=majority";
-const app = express();
+const app: Application = express();
 const cors = require("cors");
 const port = 4000;
 
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
+  console.log(`${req.method} ${req.url}`);
   next();
 });
 

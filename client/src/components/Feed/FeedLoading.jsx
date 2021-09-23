@@ -4,6 +4,7 @@ const useStyles = makeStyles(() => ({
   root: {
     borderBottom: "3px solid #f4f4f4",
     padding: "10px 10px 0px",
+    backgroundColor: "white",
   },
 
   profileText: {
@@ -16,8 +17,8 @@ const useStyles = makeStyles(() => ({
     border: "1px solid #d8d8d8",
     borderRadius: 16,
     marginBottom: 10,
-    minHeight: 44,
-    animationDuration: "2.45s",
+    minHeight: 110,
+    animationDuration: "0.85s",
     animationFillMode: "forwards",
     animationIterationCount: "infinite",
     animationName: "$loading-shimmer",
@@ -37,6 +38,9 @@ export default function FeedLoading() {
 
   return (
     <div className={classes.root}>
+      <div className={classes.feedItem} />
+      <div className={classes.feedItem} />
+      <div className={classes.feedItem} />
       <div className={classes.feedItem} />
       <div className={classes.feedItem} />
       <div className={classes.feedItem} />
