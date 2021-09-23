@@ -1,11 +1,13 @@
-import express, { Request, Response, NextFunction, Application } from "express";
+require("dotenv").config();
+import express, { Request, Response, Application } from "express";
 import { PingDocument } from "./client/src/models/ping";
 import { MongoClient, InsertOneResult } from "mongodb";
-const connectionString =
-  "mongodb+srv://admin:admin@cluster0.pixym.mongodb.net/ping-app?retryWrites=true&w=majority";
-const app: Application = express();
+const connectionString = process.env.MONGODB_URI;
+const MONGODB_NAME = process.env.MONGODB_NAME;
+const port = process.env.PORT;
 const cors = require("cors");
-const port = 4000;
+
+const app: Application = express();
 
 app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -18,7 +20,7 @@ app.use((req, res, next) => {
 
 MongoClient.connect(connectionString)
   .then((client: MongoClient) => {
-    const db = client.db("ping-app");
+    const db = client.db(MONGODB_NAME);
     console.log("Connected to Database");
 
     app.get("/", async (req: Request, res: Response) => {
